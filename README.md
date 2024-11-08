@@ -10,3 +10,4 @@ Project for CS 4488 Capstone at Idaho State University.
 
 Grant Baird
 Kaylee Dalton
+Jeongeun (Jane) Lee
