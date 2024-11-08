@@ -3,10 +3,9 @@
 
 #include <QMainWindow>
 #include <QStringListModel>
-#include <vector>
-#include "territory.h"
 #include "scoreboard.h" // Include the scoreboard header
-
+#include "territory.h"
+#include <vector>
 
 namespace Ui {
 class MainWindow;
@@ -30,11 +29,10 @@ private:
     QStringList logList;
 
     // Game state variables
-    int playerTurn;  // 1 or 2
-    int currentPhase;  // 0 = Reinforcement, 1 = Attack, 2 = Fortify
+    int playerTurn;   // 1 or 2
+    int currentPhase; // 0 = Reinforcement, 1 = Attack, 2 = Fortify
 
-
-    std::vector<Territory> territories;  // All territories in the game
+    std::vector<Territory> territories; // All territories in the game
 
     void initializeGame();
     void updateLog(const QString &message);

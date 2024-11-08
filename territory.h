@@ -3,12 +3,13 @@
 
 #include <vector>
 
-class Territory {
+class Territory
+{
 public:
-    int id;  // Unchanging territory ID
-    int owner;  // Player 1 or Player 2
-    int troops;  // Number of troops in the territory
-    std::vector<int> adjacent;  // Adjacency list (IDs of adjacent territories)
+    int id;                    // Unchanging territory ID
+    int owner;                 // Player 1 or Player 2
+    int troops;                // Number of troops in the territory
+    std::vector<int> adjacent; // Adjacency list (IDs of adjacent territories)
 
     Territory(int id, int owner, int troops);
 };
