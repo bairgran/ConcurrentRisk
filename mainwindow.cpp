@@ -5,6 +5,8 @@
 #include "territory.h"
 #include "ui_mainwindow.h"
 #include <cstdlib>
+#include <QDebug> // Include QDebug for debugging output
+#include <QMetaEnum>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -376,4 +378,54 @@ void MainWindow::transferOwnership(int territoryId, int newOwner)
         }
     }
     scoreboard->updateScoreboard(territories); // Update scoreboard after game initialization
+}
+
+// CLIENT
+void MainWindow::on_btnJoinServer_clicked()
+{
+    auto serverIP = ui->lnJoinIP->text();
+    auto serverPort = ui->spnJoinPort->value();
+    mainController.connectToServer(serverIP, serverPort);
+}
+
+void MainWindow::mainClientControllerConnected()
+{
+    ui->lstJoinConsole->addItem("Connected to Server");
+    qDebug() << "Connected to Server";
+}
+
+void MainWindow::mainClientControllerDisconnected()
+{
+    ui->lstJoinConsole->addItem("Disconnected from Server");
+    qDebug() << "Disconnected from Server";
+}
+
+void MainWindow::mainClientControllerStateChanged(QAbstractSocket::SocketState sockState)
+{
+    //State output for debugging. Convert SocketState and SocketError enums to string and output. Can use meta data
+    QMetaEnum mEnum = QMetaEnum::fromType<QAbstractSocket::SocketState>();
+    qDebug() << mEnum.valueToKey(sockState) << "\n";
+}
+
+void MainWindow::mainClientControllerErrorOccurred(QAbstractSocket::SocketError sockError)
+{
+    QMetaEnum mEnum = QMetaEnum::fromType<QAbstractSocket::SocketError>();
+    qDebug() << mEnum.valueToKey(sockError) << "\n";
+}
+
+void MainWindow::setController() {
+    // Connect controller signals to mainwindow method exactly like what is in controller.cpp
+    connect(&mainController, &Controller::connected, this, &MainWindow::mainClientControllerConnected);
+    connect(&mainController, &Controller::disconnected, this, &MainWindow::mainClientControllerDisconnected);
+    connect(&mainController, &Controller::stateChanged, this, &MainWindow::mainClientControllerStateChanged);
+    connect(&mainController, &Controller::errorOccurred, this, &MainWindow::mainClientControllerErrorOccurred);
+
+}
+
+void MainWindow::on_btnCreateServer_clicked()
+{
+    MainWindow::RISKServer.setPort(ui->spnCreatePort->value());
+    qDebug() << "Create Button Clicked";
+
+
 }

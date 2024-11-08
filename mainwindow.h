@@ -6,6 +6,8 @@
 #include "scoreboard.h" // Include the scoreboard header
 #include "territory.h"
 #include <vector>
+#include "controller.h"
+#include "server.h"
 
 namespace Ui {
 class MainWindow;
@@ -21,6 +23,14 @@ public:
 
 private slots:
     void handleTurnAction();
+
+    void on_btnJoinServer_clicked();
+
+    void mainClientControllerConnected();
+    void mainClientControllerDisconnected();
+    void mainClientControllerStateChanged(QAbstractSocket::SocketState);
+    void mainClientControllerErrorOccurred(QAbstractSocket::SocketError);
+    void on_btnCreateServer_clicked();
 
 private:
     Scoreboard *scoreboard;
@@ -40,6 +50,10 @@ private:
     void processAttack(const QString &input);
     void processFortify(const QString &input);
     void transferOwnership(int territoryId, int newOwner);
+
+    Controller mainController;
+    Server RISKServer;
+    void setController();
 };
 
 #endif // MAINWINDOW_H
