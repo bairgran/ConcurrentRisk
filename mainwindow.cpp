@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <QDebug> // Include QDebug for debugging output
 #include <QMetaEnum>
+#include "serverform.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,6 +17,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     model = new QStringListModel(this);
     ui->listView->setModel(model);
+
+    ServerForm* serverWindow = new ServerForm(this);
+    serverWindow->hide();
+    connect(ui->btnOpenServerWindow, &QPushButton::clicked, serverWindow, &ServerForm::showServerWindow);
 
     scoreboard = new Scoreboard(ui->listView_2); // Initialize the scoreboard with listView_2
     connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::handleTurnAction);
@@ -383,20 +388,20 @@ void MainWindow::transferOwnership(int territoryId, int newOwner)
 // CLIENT
 void MainWindow::on_btnJoinServer_clicked()
 {
-    auto serverIP = ui->lnJoinIP->text();
-    auto serverPort = ui->spnJoinPort->value();
-    mainController.connectToServer(serverIP, serverPort);
+    //auto serverIP = ui->lnJoinIP->text();
+    //auto serverPort = ui->spnJoinPort->value();
+    //mainController.connectToServer(serverIP, serverPort);
 }
 
 void MainWindow::mainClientControllerConnected()
 {
-    ui->lstJoinConsole->addItem("Connected to Server");
+    //ui->lstJoinConsole->addItem("Connected to Server");
     qDebug() << "Connected to Server";
 }
 
 void MainWindow::mainClientControllerDisconnected()
 {
-    ui->lstJoinConsole->addItem("Disconnected from Server");
+    //ui->lstJoinConsole->addItem("Disconnected from Server");
     qDebug() << "Disconnected from Server";
 }
 
@@ -424,8 +429,14 @@ void MainWindow::setController() {
 
 void MainWindow::on_btnCreateServer_clicked()
 {
-    MainWindow::RISKServer.setPort(ui->spnCreatePort->value());
+    //MainWindow::RISKServer.setPort(ui->spnCreatePort->value());
     qDebug() << "Create Button Clicked";
 
 
 }
+
+void MainWindow::on_btnOpenServerWindow_clicked()
+{
+    qDebug() << "Open Server Window Clicked";
+}
+

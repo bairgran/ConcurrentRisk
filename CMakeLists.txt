@@ -28,6 +28,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         scoreboard.h scoreboard.cpp
         server.h server.cpp
         controller.h controller.cpp
+        serverform.h serverform.cpp serverform.ui
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET Riskv2 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

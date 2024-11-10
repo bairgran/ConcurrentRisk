@@ -8,6 +8,7 @@
 #include <vector>
 #include "controller.h"
 #include "server.h"
+#include "serverform.h"
 
 namespace Ui {
 class MainWindow;
@@ -32,6 +33,8 @@ private slots:
     void mainClientControllerErrorOccurred(QAbstractSocket::SocketError);
     void on_btnCreateServer_clicked();
 
+    void on_btnOpenServerWindow_clicked();
+
 private:
     Scoreboard *scoreboard;
     Ui::MainWindow *ui;
@@ -54,6 +57,11 @@ private:
     Controller mainController;
     Server RISKServer;
     void setController();
+
+signals:
+    void openServer();
 };
+
+
 
 #endif // MAINWINDOW_H

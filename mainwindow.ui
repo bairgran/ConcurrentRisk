@@ -57,6 +57,19 @@
      </rect>
     </property>
    </widget>
+   <widget class="QPushButton" name="btnOpenServerWindow">
+    <property name="geometry">
+     <rect>
+      <x>659</x>
+      <y>370</y>
+      <width>121</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Open Server Window</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
