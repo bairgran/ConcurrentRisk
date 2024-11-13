@@ -29,7 +29,7 @@ private:
     void updateConsole();
     void determinePotentialInterfaceConnections();
 public slots:
-    void showServerWindow();
+    //void showServerWindow();
     bool serverListen();
     void serverStopListening();
 

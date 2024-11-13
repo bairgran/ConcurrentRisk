@@ -7,7 +7,6 @@
 #include "territory.h"
 #include <vector>
 #include "controller.h"
-#include "server.h"
 #include "serverform.h"
 
 namespace Ui {
@@ -55,9 +54,10 @@ private:
     void transferOwnership(int territoryId, int newOwner);
 
     Controller mainController;
-    Server RISKServer;
     void setController();
 
+    void updateSize();
+    bool serverStarted=false;
 signals:
     void openServer();
 };

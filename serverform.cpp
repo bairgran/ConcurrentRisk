@@ -22,7 +22,7 @@ ServerForm::~ServerForm()
 void ServerForm::determinePotentialInterfaceConnections() {
     QNetworkInterface *tempInterface = new QNetworkInterface();
     QList<QHostAddress> interfaceList = tempInterface->allAddresses();
-    for (auto address : interfaceList) {
+    for (const auto &address : interfaceList) {
         if (address.protocol()==QAbstractSocket::IPv4Protocol) {
             interfaces.append(address);
         }
@@ -31,11 +31,11 @@ void ServerForm::determinePotentialInterfaceConnections() {
     delete tempInterface;
 }
 
-void ServerForm::showServerWindow()
-{
+// void ServerForm::showServerWindow()
+// {
 
-    show();
-}
+//     show();
+// }
 
 bool ServerForm::serverListen() {
     bool started = RiskServer->listen(interfaces[0], port);
