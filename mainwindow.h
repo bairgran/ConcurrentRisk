@@ -34,6 +34,8 @@ private slots:
 
     void on_btnOpenServerWindow_clicked();
 
+    void on_comboBox_currentIndexChanged(int index);
+
 private:
     Scoreboard *scoreboard;
     Ui::MainWindow *ui;

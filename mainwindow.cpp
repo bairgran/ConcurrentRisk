@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     scoreboard = new Scoreboard(ui->listView_2); // Initialize the scoreboard with listView_2
     connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::handleTurnAction);
 
-    //updateSize();
+    updateSize();
 
     initializeGame();
 }
@@ -479,15 +479,24 @@ void MainWindow::on_btnOpenServerWindow_clicked()
 
 }
 
+// TO DO: rewrite this more eloquently.
 void MainWindow::updateSize() {
-    qDebug() << ui->gridLayout_2->sizeHint();
-    qDebug() << ui->SetupPage->frameSize();
+    //qDebug() << ui->gridLayout_2->sizeHint();
+    //qDebug() << ui->SetupPage->frameSize();
 
-    ui->SetupPage->resize(ui->gridLayout_2->sizeHint());
-    ui->stackedWidget->resize(ui->SetupPage->frameSize());
-    ui->comboBox->move(ui->comboBox->x(), ui->stackedWidget->x()+ui->stackedWidget->height()+10);
-    ui->centralwidget->adjustSize();
-    this->resize(ui->centralwidget->frameSize());
+    if (ui->comboBox->currentText() == "SetupPage") {
+        ui->SetupPage->adjustSize();
+        ui->stackedWidget->resize(ui->SetupPage->frameSize());
+        ui->comboBox->move(ui->comboBox->x(), ui->stackedWidget->x()+ui->stackedWidget->height()+10);
+        ui->centralwidget->adjustSize();
+        this->resize(ui->centralwidget->frameSize().width(), ui->centralwidget->frameSize().height() + ui->statusbar->frameSize().height());
+    }else {
+        ui->GamePage->adjustSize();
+        ui->stackedWidget->resize(ui->GamePage->frameSize());
+        ui->comboBox->move(ui->comboBox->x(), ui->stackedWidget->x()+ui->stackedWidget->height()+10);
+        ui->centralwidget->adjustSize();
+        this->resize(ui->centralwidget->frameSize().width(), ui->centralwidget->frameSize().height() + ui->statusbar->frameSize().height());
+    }
     // qDebug() << ui->stackedWidget->sizeHint();
     // qDebug() << ui->centralwidget->sizeHint();
     // qDebug() << sizeHint();
@@ -496,6 +505,12 @@ void MainWindow::updateSize() {
     // ui->centralwidget->adjustSize();
     //adjustSize();
 
-    qDebug() << ui->SetupPage->frameSize();
+    //qDebug() << ui->SetupPage->frameSize();
 
 }
+
+void MainWindow::on_comboBox_currentIndexChanged(int index)
+{
+    updateSize();
+}
+
