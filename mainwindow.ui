@@ -51,7 +51,7 @@
      <enum>QFrame::Shape::Box</enum>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="SetupPage">
      <property name="sizePolicy">
@@ -86,7 +86,7 @@
         <number>10</number>
        </property>
        <item row="2" column="0" colspan="2">
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="btnJoin">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -99,7 +99,7 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QLineEdit" name="lineEdit_2">
+        <widget class="QLineEdit" name="lnIPAddress">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -118,7 +118,7 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QSpinBox" name="spinBox">
+        <widget class="QSpinBox" name="spnPort">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -156,7 +156,7 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="lblPort">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -169,7 +169,7 @@
         </widget>
        </item>
        <item row="0" column="0">
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="lblIPAddress">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -287,8 +287,8 @@
  </widget>
  <tabstops>
   <tabstop>pushButton</tabstop>
-  <tabstop>lineEdit_2</tabstop>
-  <tabstop>spinBox</tabstop>
+  <tabstop>lnIPAddress</tabstop>
+  <tabstop>spnPort</tabstop>
   <tabstop>lineEdit</tabstop>
   <tabstop>listView_2</tabstop>
   <tabstop>listView</tabstop>
@@ -302,8 +302,8 @@
    <slot>setCurrentIndex(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>529</x>
-     <y>79</y>
+     <x>93</x>
+     <y>569</y>
     </hint>
     <hint type="destinationlabel">
      <x>474</x>

@@ -1,6 +1,7 @@
 #ifndef SERVERFORM_H
 #define SERVERFORM_H
 
+#include <QNetworkInterface>
 #include <QTcpServer>
 #include <QWidget>
 
@@ -14,8 +15,9 @@ class ServerForm : public QWidget
 
 public:
     explicit ServerForm(QWidget *parent = nullptr);
-    void setPort(int newPort);
     ~ServerForm();
+public slots:
+    //void showServerWindow();
 
 private:
     Ui::ServerForm *ui;
@@ -28,14 +30,19 @@ private:
     void updateStatusLight();
     void updateConsole();
     void determinePotentialInterfaceConnections();
-public slots:
-    //void showServerWindow();
+    int connectionCounter=0;
+
+    void setPort(int newPort);
+private slots:
     bool serverListen();
     void serverStopListening();
-
-private slots:
-    void on_btnStart_clicked();
-    void on_btnClose_clicked();
+    void onBtnStartClicked();
+    void onBtnCloseClicked();
+    void addNewConnection();
+signals:
+    void serverDeletedSignal();
+protected:
+    //void closeEvent(QCloseEvent *event);
 };
 
 #endif // SERVERFORM_H

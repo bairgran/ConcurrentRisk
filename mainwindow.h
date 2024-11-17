@@ -6,8 +6,7 @@
 #include "scoreboard.h" // Include the scoreboard header
 #include "territory.h"
 #include <vector>
-#include "controller.h"
-#include "serverform.h"
+#include <QTcpSocket>
 
 namespace Ui {
 class MainWindow;
@@ -21,21 +20,19 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
+    void updateSize();
+
 private slots:
     void handleTurnAction();
 
-    void on_btnJoinServer_clicked();
-
-    void mainClientControllerConnected();
-    void mainClientControllerDisconnected();
-    void mainClientControllerStateChanged(QAbstractSocket::SocketState);
-    void mainClientControllerErrorOccurred(QAbstractSocket::SocketError);
-    void on_btnCreateServer_clicked();
-
+    void socketStateChange(QAbstractSocket::SocketState);
+    void socketError(QAbstractSocket::SocketError);
     void on_btnOpenServerWindow_clicked();
-
     void on_comboBox_currentIndexChanged(int index);
 
+    void connectToServer();
+    void serverDeleted();
 private:
     Scoreboard *scoreboard;
     Ui::MainWindow *ui;
@@ -55,13 +52,11 @@ private:
     void processFortify(const QString &input);
     void transferOwnership(int territoryId, int newOwner);
 
-    Controller mainController;
-    void setController();
+    QTcpSocket gameSocket;
+    QString IP;
+    int Port;
 
-    void updateSize();
     bool serverStarted=false;
-signals:
-    void openServer();
 };
 
 

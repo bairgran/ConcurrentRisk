@@ -27,8 +27,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         territory.h territory.cpp
         scoreboard.h scoreboard.cpp
-
-        controller.h controller.cpp
         serverform.h serverform.cpp serverform.ui
     )
 # Define target properties for Android with Qt 6 as:
