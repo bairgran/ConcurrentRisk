@@ -17,7 +17,6 @@ public:
     explicit ServerForm(QWidget *parent = nullptr);
     ~ServerForm();
 public slots:
-    //void showServerWindow();
 
 private:
     Ui::ServerForm *ui;
