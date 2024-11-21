@@ -57,6 +57,12 @@ private:
     int Port;
 
     bool serverStarted=false;
+
+    // access private members for test
+    friend void testInitializeGame();
+    friend void testAttack();
+    friend void testReinforcement();
+    friend void testFortification();
 };
 
 
