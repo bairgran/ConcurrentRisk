@@ -41,21 +41,25 @@ void MainWindow::initializeGame()
 {
     playerTurn = 1;
 
-    // Initialize territories with unique IDs and owners
-    territories.push_back(Territory(0, 1, 10)); // Territory 0: Player 1 with 10 troops
-    territories.push_back(Territory(1, 1, 10)); // Territory 1: Player 1 with 10 troops
-    territories.push_back(Territory(2, 2, 2));  // Territory 2: Player 2 with 2 troops
-    territories.push_back(Territory(3, 2, 2));  // Territory 3: Player 2 with 2 troops
+    // Initialize territories with unique IDs, owners, and troops
+    territories.push_back(Territory(1, 1, 2)); // Territory 1: Player 1 with 10 troops
+    territories.push_back(Territory(2, 1, 2)); // Territory 2: Player 1 with 10 troops
+    territories.push_back(Territory(3, 1, 2));  // Territory 3: Player 2 with 2 troops
+    territories.push_back(Territory(4, 2, 2));  // Territory 4: Player 2 with 2 troops
+    territories.push_back(Territory(5, 2, 2));  // Territory 5: Player 2 with 2 troops
+    territories.push_back(Territory(6, 2, 2));  // Territory 6: Player 2 with 2 troops
 
-    // Set adjacency for simplicity (all adjacent to each other)
-    territories[0].adjacent = {1, 2, 3};
-    territories[1].adjacent = {0, 2, 3};
-    territories[2].adjacent = {0, 1, 3};
-    territories[3].adjacent = {0, 1, 2};
+    // Set adjacency for each territory
+    territories[0].adjacent = {2, 3};         // Territory 1 is connected to 2, 3
+    territories[1].adjacent = {1, 3, 6};      // Territory 2 is connected to 1, 3, 6
+    territories[2].adjacent = {1, 2, 4, 5};   // Territory 3 is connected to 1, 2, 4, 5
+    territories[3].adjacent = {3, 5, 6};      // Territory 4 is connected to 3, 5, 6
+    territories[4].adjacent = {3, 4, 6};      // Territory 5 is connected to 3, 4, 6
+    territories[5].adjacent = {2, 4, 5};      // Territory 6 is connected to 2, 4, 5
 
     currentPhase = 0;
 
-    updateLog("Game initialized. It's Player 1's turn. Reinforce a territory (0 or 1).");
+    updateLog("Game initialized. It's Player 1's turn. Reinforce an owned territory (enter the number).");
     scoreboard->updateScoreboard(territories); // Update scoreboard after game initialization
 }
 
