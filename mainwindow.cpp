@@ -54,8 +54,8 @@ void MainWindow::initializeGame()
     territories[1].adjacent = {1, 3, 6};      // Territory 2 is connected to 1, 3, 6
     territories[2].adjacent = {1, 2, 4, 5};   // Territory 3 is connected to 1, 2, 4, 5
     territories[3].adjacent = {3, 5, 6};      // Territory 4 is connected to 3, 5, 6
-    territories[4].adjacent = {3, 4, 6};      // Territory 5 is connected to 3, 4, 6
-    territories[5].adjacent = {2, 4, 5};      // Territory 6 is connected to 2, 4, 5
+    territories[4].adjacent = {3, 4};      // Territory 5 is connected to 3, 4
+    territories[5].adjacent = {2, 4};      // Territory 6 is connected to 2, 4
 
     currentPhase = 0;
 
