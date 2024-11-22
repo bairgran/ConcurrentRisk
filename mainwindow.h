@@ -3,10 +3,10 @@
 
 #include <QMainWindow>
 #include <QStringListModel>
-#include <vector>
-#include "territory.h"
 #include "scoreboard.h" // Include the scoreboard header
-
+#include "territory.h"
+#include <vector>
+#include <QTcpSocket>
 
 namespace Ui {
 class MainWindow;
@@ -20,9 +20,19 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
+    void updateSize();
+
 private slots:
     void handleTurnAction();
 
+    void socketStateChange(QAbstractSocket::SocketState);
+    void socketError(QAbstractSocket::SocketError);
+    void on_btnOpenServerWindow_clicked();
+    void on_comboBox_currentIndexChanged(int index);
+
+    void connectToServer();
+    void serverDeleted();
 private:
     Scoreboard *scoreboard;
     Ui::MainWindow *ui;
@@ -30,11 +40,10 @@ private:
     QStringList logList;
 
     // Game state variables
-    int playerTurn;  // 1 or 2
-    int currentPhase;  // 0 = Reinforcement, 1 = Attack, 2 = Fortify
+    int playerTurn;   // 1 or 2
+    int currentPhase; // 0 = Reinforcement, 1 = Attack, 2 = Fortify
 
-
-    std::vector<Territory> territories;  // All territories in the game
+    std::vector<Territory> territories; // All territories in the game
 
     void initializeGame();
     void updateLog(const QString &message);
@@ -42,6 +51,20 @@ private:
     void processAttack(const QString &input);
     void processFortify(const QString &input);
     void transferOwnership(int territoryId, int newOwner);
+
+    QTcpSocket gameSocket;
+    QString IP;
+    int Port;
+
+    bool serverStarted=false;
+
+    // access private members for test
+    friend void testInitializeGame();
+    friend void testAttack();
+    friend void testReinforcement();
+    friend void testFortification();
 };
+
+
 
 #endif // MAINWINDOW_H

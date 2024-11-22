@@ -2,12 +2,13 @@
 #define SCOREBOARD_H
 
 #include <QListView>
-#include <QStringListModel>
-#include <vector>
-#include "territory.h"
 #include <QObject>
+#include <QStringListModel>
+#include "territory.h"
+#include <vector>
 
-class Scoreboard : public QObject {  // Inherit from QObject
+class Scoreboard : public QObject
+{ // Inherit from QObject
     Q_OBJECT
 
 public:
