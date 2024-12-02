@@ -508,38 +508,37 @@ void MainWindow::connectToServer()
 
 void MainWindow::on_btnLaunchDefense_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(7);
+    //placeholder
 }
 
 
 void MainWindow::on_btnEndFortification_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(3);
+   //placeholder
 }
 
 
 void MainWindow::on_btnEndAttackPhase_clicked()
 {
-    //end attack
-    ui->stackedWidget->setCurrentIndex(4);
+    //end attack placeholder
 }
 
 
 void MainWindow::on_btnSendReinforcements_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(5);
+   //placeholder
 }
 
 
 void MainWindow::on_btnEndFortificationPhase_clicked()
 {
     //End fortification phase
-    ui->stackedWidget->setCurrentIndex(6);
+    //placeholder
 }
 
 
 void MainWindow::on_btnLaunchAttack_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(7);
+    //placeholder
 }
 
