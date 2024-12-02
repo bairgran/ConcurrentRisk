@@ -29,7 +29,7 @@ ServerForm::~ServerForm()
 }
 
 // Grant
-// Used to populate interfaces with all the possible IP addresses that the server will be hosting from,
+// Used to populate interfaces (QList<QHostAddress>) with all the possible IP addresses that the server will be hosting from,
 // and weeds out any that arent IPv4 protocol.
 void ServerForm::determinePotentialInterfaceConnections() {
     interfaces = QNetworkInterface::allAddresses();
