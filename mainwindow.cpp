@@ -503,3 +503,43 @@ void MainWindow::connectToServer()
     gameSocket.connectToHost(IP, Port);
 }
 
+
+//Buttons objects
+
+void MainWindow::on_btnLaunchDefense_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(7);
+}
+
+
+void MainWindow::on_btnEndFortification_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(3);
+}
+
+
+void MainWindow::on_btnEndAttackPhase_clicked()
+{
+    //end attack
+    ui->stackedWidget->setCurrentIndex(4);
+}
+
+
+void MainWindow::on_btnSendReinforcements_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(5);
+}
+
+
+void MainWindow::on_btnEndFortificationPhase_clicked()
+{
+    //End fortification phase
+    ui->stackedWidget->setCurrentIndex(6);
+}
+
+
+void MainWindow::on_btnLaunchAttack_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(7);
+}
+

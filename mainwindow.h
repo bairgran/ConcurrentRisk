@@ -33,6 +33,22 @@ private slots:
 
     void connectToServer();
     void serverDeleted();
+    void on_pushButton_7_clicked();
+
+    void on_btnLaunchDefense_clicked();
+
+    void on_pushButton_2_clicked();
+
+    void on_btnEndFortification_clicked();
+
+    void on_btnEndAttackPhase_clicked();
+
+    void on_btnSendReinforcements_clicked();
+
+    void on_btnEndFortificationPhase_clicked();
+
+    void on_btnLaunchAttack_clicked();
+
 private:
     Scoreboard *scoreboard;
     Ui::MainWindow *ui;

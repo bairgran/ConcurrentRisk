@@ -29,16 +29,39 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>548</y>
+      <width>85</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="currentText">
+     <string>SetupPage</string>
+    </property>
+    <item>
+     <property name="text">
+      <string>SetupPage</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>GamePage</string>
+     </property>
+    </item>
+   </widget>
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="enabled">
      <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>20</x>
       <y>10</y>
-      <width>650</width>
-      <height>531</height>
+      <width>691</width>
+      <height>541</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -51,7 +74,7 @@
      <enum>QFrame::Shape::Box</enum>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="SetupPage">
      <property name="sizePolicy">
@@ -242,17 +265,18 @@
      </widget>
     </widget>
     <widget class="QWidget" name="page">
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="btnEndFortification">
       <property name="geometry">
        <rect>
-        <x>280</x>
-        <y>480</y>
-        <width>80</width>
-        <height>24</height>
+        <x>520</x>
+        <y>450</y>
+        <width>101</width>
+        <height>51</height>
        </rect>
       </property>
       <property name="text">
-       <string>PushButton</string>
+       <string>End
+Fortification</string>
       </property>
      </widget>
      <widget class="QListView" name="listView_3">
@@ -284,30 +308,413 @@
        <string>Beginning Reinforcement Phase</string>
       </property>
      </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>440</y>
+        <width>131</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Beginning
+Reinforcement Phase
+Instructions</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_2">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>450</y>
+        <width>101</width>
+        <height>51</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="spinBox">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>450</y>
+        <width>91</width>
+        <height>51</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_2">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>451</y>
+        <width>113</width>
+        <height>51</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_7">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>430</y>
+        <width>111</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
     </widget>
-   </widget>
-   <widget class="QComboBox" name="comboBox">
-    <property name="geometry">
-     <rect>
-      <x>9</x>
-      <y>548</y>
-      <width>85</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="currentText">
-     <string>SetupPage</string>
-    </property>
-    <item>
-     <property name="text">
-      <string>SetupPage</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>GamePage</string>
-     </property>
-    </item>
+    <widget class="QWidget" name="page_2">
+     <widget class="QListView" name="listView_4">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>661</width>
+        <height>411</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>450</y>
+        <width>81</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Attack Phase
+Instructions</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="spinBox_2">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>450</y>
+        <width>91</width>
+        <height>51</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_3">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>450</y>
+        <width>71</width>
+        <height>51</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>0</y>
+        <width>181</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Attack Phase</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnEndAttackPhase">
+      <property name="geometry">
+       <rect>
+        <x>590</x>
+        <y>450</y>
+        <width>81</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>End Attack
+Phase </string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnLaunchAttack">
+      <property name="geometry">
+       <rect>
+        <x>510</x>
+        <y>450</y>
+        <width>71</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Launch
+ Attack</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_4">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>450</y>
+        <width>71</width>
+        <height>51</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_5">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>460</y>
+        <width>61</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Attacking</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>460</y>
+        <width>41</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>With</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_3">
+     <widget class="QLabel" name="label_8">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>460</y>
+        <width>81</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Ending Fortification
+Phase Instructions</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_9">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>10</y>
+        <width>181</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Ending Fortification Phase</string>
+      </property>
+     </widget>
+     <widget class="QListView" name="listView_5">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>661</width>
+        <height>411</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_10">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>470</y>
+        <width>41</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>With</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnEndFortificationPhase">
+      <property name="geometry">
+       <rect>
+        <x>590</x>
+        <y>460</y>
+        <width>81</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>End
+Fortification
+Phase</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_5">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>460</y>
+        <width>71</width>
+        <height>51</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_6">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>460</y>
+        <width>71</width>
+        <height>51</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnSendReinforcements">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>460</y>
+        <width>101</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Send
+Reinforcements</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="spinBox_3">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>460</y>
+        <width>91</width>
+        <height>51</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_4">
+     <widget class="QLabel" name="label_11">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>460</y>
+        <width>111</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Defense information
+and Instructions</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="spinBox_4">
+      <property name="geometry">
+       <rect>
+        <x>470</x>
+        <y>460</y>
+        <width>91</width>
+        <height>51</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QListView" name="listView_6">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>661</width>
+        <height>411</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_7">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>460</y>
+        <width>91</width>
+        <height>51</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnLaunchDefense">
+      <property name="geometry">
+       <rect>
+        <x>590</x>
+        <y>460</y>
+        <width>81</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Launch
+Defense</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_13">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>10</y>
+        <width>181</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Defense Window</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_8">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>460</y>
+        <width>101</width>
+        <height>51</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_12">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>480</y>
+        <width>81</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string> Is attacking </string>
+      </property>
+     </widget>
+    </widget>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar">
@@ -329,31 +736,6 @@
    </property>
   </widget>
  </widget>
- <tabstops>
-  <tabstop>pushButton</tabstop>
-  <tabstop>lnIPAddress</tabstop>
-  <tabstop>spnPort</tabstop>
-  <tabstop>lineEdit</tabstop>
-  <tabstop>listView_2</tabstop>
-  <tabstop>listView</tabstop>
- </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>comboBox</sender>
-   <signal>currentIndexChanged(int)</signal>
-   <receiver>stackedWidget</receiver>
-   <slot>setCurrentIndex(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>93</x>
-     <y>569</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>474</x>
-     <y>44</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

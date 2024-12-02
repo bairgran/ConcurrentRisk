@@ -2,6 +2,12 @@
 #define TERRITORY_H
 
 #include <vector>
+#include <QGraphicsScene>
+#include <QGraphicsEllipseItem>
+#include <QGraphicsLineItem>
+#include <QGraphicsTextItem>
+#include <QPen>
+#include <QBrush>
 
 class Territory
 {
@@ -12,6 +18,7 @@ public:
     std::vector<int> adjacent; // Adjacency list (IDs of adjacent territories)
 
     Territory(int id, int owner, int troops);
+    void displayTerritoryGraph(QGraphicsScene *scene, const std::vector<Territory> &territories);
 };
 
 #endif // TERRITORY_H
