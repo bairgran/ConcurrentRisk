@@ -24,8 +24,6 @@ public slots:
     void updateSize();
 
 private slots:
-    void handleTurnAction();
-
     void socketStateChange(QAbstractSocket::SocketState);
     void socketError(QAbstractSocket::SocketError);
     void on_btnOpenServerWindow_clicked();
@@ -60,13 +58,6 @@ private:
     int currentPhase; // 0 = Reinforcement, 1 = Attack, 2 = Fortify
 
     std::vector<Territory> territories; // All territories in the game
-
-    void initializeGame();
-    void updateLog(const QString &message);
-    void processReinforcement(const QString &input);
-    void processAttack(const QString &input);
-    void processFortify(const QString &input);
-    void transferOwnership(int territoryId, int newOwner);
 
     QTcpSocket gameSocket;
     QString IP;
