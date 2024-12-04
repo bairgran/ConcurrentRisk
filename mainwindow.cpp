@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
     // connections for debug purposes.
     connect(&gameSocket, &QAbstractSocket::stateChanged, this, &MainWindow::socketStateChange);
     connect(&gameSocket, &QAbstractSocket::errorOccurred, this, &MainWindow::socketError);
+    connect(ui->comboBox, &QComboBox::currentIndexChanged, ui->stackedWidget, &QStackedWidget::setCurrentIndex);
 
     updateSize();
 }
