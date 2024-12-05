@@ -8,6 +8,7 @@ Scoreboard::Scoreboard(QListView *view)
     listView->setModel(model);
 }
 
+//KD + JL
 void Scoreboard::updateScoreboard(const std::vector<Territory> &territories)
 {
     QStringList scoreList;

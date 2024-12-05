@@ -21,6 +21,9 @@ MainWindow::MainWindow(QWidget *parent)
     scoreboard = new Scoreboard(ui->listView_2); // Initialize the scoreboard with listView_2
     //connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::handleTurnAction);
 
+    // Connect the button click to the slot that emits the signal
+    connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::on_btnSendInput_clicked);
+
     connect(ui->btnJoin, &QPushButton::clicked, this, &MainWindow::connectToServer);
     // connections for debug purposes.
     connect(&gameSocket, &QAbstractSocket::stateChanged, this, &MainWindow::socketStateChange);
@@ -35,6 +38,13 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+//KD
+void MainWindow::on_btnSendInput_clicked()
+{
+    // Emit the signal with the QLineEdit text
+    emit userInputReceived(ui->lineEdit->text());
+    ui->lineEdit->clear(); // Clear the input field after sending the text
+}
 
 
 // CLIENT

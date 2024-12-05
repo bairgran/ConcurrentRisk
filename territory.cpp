@@ -1,6 +1,7 @@
 #include "territory.h"
 #include <cmath>
 
+//KD
 Territory::Territory(int id, int owner, int troops)
     : id(id)
     , owner(owner)
@@ -8,6 +9,7 @@ Territory::Territory(int id, int owner, int troops)
 {
     // Adjacency list will be initialized in the game setup
 }
+//KD
 void Territory::displayTerritoryGraph(QGraphicsScene *scene, const std::vector<Territory> &territories)
 {
     // Define properties for nodes and edges

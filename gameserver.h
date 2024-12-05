@@ -12,13 +12,20 @@ class GameServer : public QObject
 public:
     explicit GameServer(QObject *parent = nullptr);
 
+
+public slots:
+    void handleUserInput(const QString &input); // Slot to handle input from MainWindow
+
+
 private slots:
-    void handleTurnAction();
+    //void handleTurnAction();
 
 private:
     Scoreboard *scoreboard;
     QStringListModel *model;
     QStringList logList;
+
+    void handleTurnAction(const QString &input); // Pass input directly
 
     void initializeGame();
     void updateLog(const QString &message);

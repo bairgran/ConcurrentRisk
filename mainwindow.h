@@ -20,10 +20,16 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+signals:
+    void userInputReceived(const QString &input); // Signal for input from the QLineEdit
+
+
 public slots:
     void updateSize();
 
 private slots:
+    void on_btnSendInput_clicked(); // Slot to handle button click
+
     void socketStateChange(QAbstractSocket::SocketState);
     void socketError(QAbstractSocket::SocketError);
     void on_btnOpenServerWindow_clicked();

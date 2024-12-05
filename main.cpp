@@ -3,11 +3,15 @@
 #include <QGraphicsView>
 #include "territory.h"
 #include "mainwindow.h"
+#include "gameserver.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
+
+    GameServer gameServer;
+    QObject::connect(&w, &MainWindow::userInputReceived, &gameServer, &GameServer::handleUserInput);
     w.show();
 
 

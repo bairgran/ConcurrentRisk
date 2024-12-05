@@ -3,7 +3,7 @@
 GameServer::GameServer(QObject *parent)
     : QObject{parent}
 {
-    //initializeGame();
+    //initializeGame(); //is this supposed to be commented out? - KD
 }
 
 void GameServer::initializeGame()
@@ -38,12 +38,14 @@ void GameServer::updateLog(const QString &message)
     model->setStringList(logList);
 }
 
-void GameServer::handleTurnAction()
+void GameServer::handleUserInput(const QString &input)
 {
-    // QString input = ui->lineEdit->text();
-    // ui->lineEdit->clear();
-    QString input = ""; // FIX ME.
+    handleTurnAction(input);
+}
 
+//KD
+void GameServer::handleTurnAction(const QString &input)
+{
     switch (currentPhase) {
     case 0:
         processReinforcement(input);
@@ -57,6 +59,7 @@ void GameServer::handleTurnAction()
     }
 }
 
+//KD
 void GameServer::processReinforcement(const QString &input)
 {
     // Reset for new reinforcement phase
@@ -147,6 +150,7 @@ void GameServer::processReinforcement(const QString &input)
                   .arg(playerTurn)); // Prompt for attack
 }
 
+//KD
 void GameServer::processAttack(const QString &input)
 {
     static int attackingFrom = -1;   // Store the attacking territory ID
@@ -293,6 +297,7 @@ void GameServer::processAttack(const QString &input)
     }
 }
 
+//KD
 void GameServer::processFortify(const QString &input)
 {
     static int fromTerritory = -1;       // Territory to move troops from
@@ -377,6 +382,7 @@ void GameServer::processFortify(const QString &input)
 }
 
 
+//KD
 void GameServer::transferOwnership(int territoryId, int newOwner)
 {
     for (Territory &territory : territories) {
