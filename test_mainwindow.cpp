@@ -1,10 +1,9 @@
-// Sorry Jane I broke everything moving the server functionality into gameserver.
-
+// comment after testing to avoid breaking other codes
 // Jane
 
-// #include "mainwindow.h"
-// #include <cassert>
-// #include <iostream>
+//#include "mainwindow.h"
+//#include <cassert>
+//#include <iostream>
 
 // // initialize
 // void testInitializeGame() {
@@ -32,24 +31,43 @@
 //     std::cout << "test Attack test passed" << std::endl;
 // }
 
+
 // // reinforcement
-// void testReinforcement(){
-//     MainWindow testWindow(nullptr);
-//     testWindow.initializeGame();
+//void testReinforcement(){
+//    MainWindow testWindow(nullptr);
+//    testWindow.initializeGame();
+
+//    QString input = "TerritoryID:5 Troops:3";
+//    testWindow.processReinforcement(input);
+
+//    assert(testWindow.currentPhase == 0);
+//    assert(testWindow.territories[5].troopCount == 3);
+//    std::cout << "reinforcement test passed" << std::endl;
+
 
 // }
 
 // // fortification
-// void testFortification() {
-//     MainWindow testWindow(nullptr);
-//     testWindow.initializeGame();
-// }
+//void testFortification() {
+//    MainWindow testWindow(nullptr);
+//    testWindow.initializeGame();
 
-// // test // doesn't work
-// // will try testing later using Qt Test
+//    QString input = "From:2 To:6 Troops:2";
+//    testWindow.processFortify(input);
+
+//    assert(testWindow.currentPhase == 2);
+//    assert(testWindow.territories[2].troopCount == (initialCount2 - 2));
+//    assert(testWindow.territories[6].troopCount == (initialCount6 + 2));
+
+//    std::cout << "forticiation test passed" << std::endl;
+//}
+
+// // test
 // int main() {
 //     testInitializeGame();
 //     testAttack();
+//     testReinforcement
+//     testFortification
 //     return 0;
 // }
 
