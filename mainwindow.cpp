@@ -198,7 +198,6 @@ void MainWindow::processAttack(const QString &input)
         // First ask for the territory you are attacking from
         attackingFrom = input.toInt();
         bool validTerritory = false;
-        isContinuing = true;
 
         // Check if the attacking territory is valid and owned by the player
         for (const Territory &territory : territories) {
@@ -209,34 +208,46 @@ void MainWindow::processAttack(const QString &input)
         }
 
         if (validTerritory) {
-            // Prompt user for the territory they are attacking
-            updateLog(
-                QString("Select the territory to attack from Territory %1.").arg(attackingFrom));
+            updateLog(QString("Select the territory to attack from Territory %1.").arg(attackingFrom));
             scoreboard->updateScoreboard(territories); // Update scoreboard
-            return;                                    // Exit to wait for the next input
+            return; // Exit to wait for the next input
         } else {
             updateLog("Invalid attacking territory. Please select a valid territory owned by you.");
             attackingFrom = -1; // Reset for next input
             return;
         }
     } else if (isContinuing) {
-        // Now process the attack to the selected territory
+        // Process the target territory
         int targetTerritoryId = input.toInt();
+        bool isAdjacent = false;
+
+        // Check if the target territory is adjacent
+        for (const int &adjId : territories[attackingFrom - 1].adjacent) {
+            if (adjId == targetTerritoryId) {
+                isAdjacent = true;
+                break;
+            }
+        }
+
+        if (!isAdjacent) {
+            updateLog("The target territory is not adjacent to the attacking territory.");
+            return;
+        }
+
+        // Proceed with the attack logic
         for (Territory &defenderTerritory : territories) {
             if (defenderTerritory.id == targetTerritoryId) {
-                // Check if the defender is not the same as the attacker
                 if (defenderTerritory.owner != playerTurn) {
-                    Territory &attackerTerritory = territories[attackingFrom];
+                    Territory &attackerTerritory = territories[attackingFrom - 1];
 
-                    // Ensure there are enough troops to attack
-                    if (attackerTerritory.troops > 1) { // Assuming at least 1 troop must stay behind
-                        // Determine the number of dice to roll
-                        int attackerDice = std::min(attackerTerritory.troops - 1, 3); // Max 3 dice
-                        int defenderDice = std::min(defenderTerritory.troops, 2);     // Max 2 dice
+                    if (attackerTerritory.troops > 1) { // Check troop availability
+                        // Perform dice rolls and resolve combat
+                        int attackerDice = std::min(attackerTerritory.troops - 1, 3);
+                        int defenderDice = std::min(defenderTerritory.troops, 2);
 
-                        // Roll the dice
                         QVector<int> attackerRolls(attackerDice);
                         QVector<int> defenderRolls(defenderDice);
+
                         for (int i = 0; i < attackerDice; ++i) {
                             attackerRolls[i] = rand() % 6 + 1; // Roll a die (1-6)
                         }
@@ -244,94 +255,42 @@ void MainWindow::processAttack(const QString &input)
                             defenderRolls[i] = rand() % 6 + 1; // Roll a die (1-6)
                         }
 
-                        // Sort the rolls in descending order
                         std::sort(attackerRolls.begin(), attackerRolls.end(), std::greater<int>());
                         std::sort(defenderRolls.begin(), defenderRolls.end(), std::greater<int>());
 
-                        // Compare the highest rolls first
                         for (int i = 0; i < std::min(attackerDice, defenderDice); ++i) {
                             if (attackerRolls[i] > defenderRolls[i]) {
-                                defenderTerritory.troops--; // Defender loses a troop
+                                defenderTerritory.troops--;
                             } else {
-                                attackerTerritory.troops--; // Attacker loses a troop
+                                attackerTerritory.troops--;
                             }
                         }
 
-                        // Convert rolls to QStrings for logging
-                        QList<QString> attackerRollsStr;
-                        QList<QString> defenderRollsStr;
-
-                        for (int roll : attackerRolls) {
-                            attackerRollsStr.append(QString::number(roll));
-                        }
-                        for (int roll : defenderRolls) {
-                            defenderRollsStr.append(QString::number(roll));
-                        }
-
-                        // Update log messages
-                        updateLog(QString("Player %1 attacks Territory %2 from Territory %3!")
-                                      .arg(playerTurn)
-                                      .arg(targetTerritoryId)
-                                      .arg(attackingFrom));
-                        updateLog(QString("Attacker rolled: %1").arg(attackerRollsStr.join(", ")));
-                        updateLog(QString("Defender rolled: %1").arg(defenderRollsStr.join(", ")));
-
-                        // Check if defender's troops have reached 0
                         if (defenderTerritory.troops <= 0) {
                             transferOwnership(targetTerritoryId, playerTurn);
                         }
 
-                        scoreboard->updateScoreboard(territories); // Update scoreboard
-
-                        // Check if attacking player has troops left to continue attacking
-                        if (attackerTerritory.troops <= 1) {
-                            updateLog("You have no troops left to continue attacking. Now choose a territory to fortify.");
-                            currentPhase = 2; // Move to Fortify Phase
-                        } else {
-                            updateLog("Do you want to continue attacking? (y/n)");
-                            isContinuing = false; // Set to false to wait for yes/no input
-                        }
-
+                        updateLog(QString("Attack resolved between Territory %1 and Territory %2.")
+                                      .arg(attackingFrom)
+                                      .arg(targetTerritoryId));
+                        scoreboard->updateScoreboard(territories);
                         return;
                     } else {
-                        updateLog("You do not have enough troops to attack.");
-                        attackingFrom = -1; // Reset for next input
+                        updateLog("Not enough troops to attack.");
+                        attackingFrom = -1; // Reset for the next attack
                         return;
                     }
                 } else {
                     updateLog("You cannot attack your own territory.");
-                    attackingFrom = -1; // Reset for next input
+                    attackingFrom = -1;
                     return;
                 }
             }
         }
-        updateLog("Invalid territory ID. Enter a valid ID for the target territory.");
+
+        updateLog("Invalid target territory. Please try again.");
     } else {
-        // Process 'y' or 'n' input for continuing attack
-        if (input.trimmed().toLower() == "y") {
-            // Reset for the next attack selection
-            attackingFrom = -1;
-            isContinuing = true; // Continue attacking
-            updateLog(
-                "Select the territory to attack from."); // Prompt to select new attacking territory
-            return;
-        } else if (input.trimmed().toLower() == "n") {
-            // End the attack phase
-            updateLog("You have chosen to end your attacks.");
-            currentPhase = 2;   // Move to Fortify Phase
-            attackingFrom = -1; // Reset for next phase
-            updateLog(QString("Player %1, it's your turn to fortify. You can move troops between "
-                              "your territories.")
-                          .arg(playerTurn));
-            updateLog("Enter the territory to reinforce to");
-            updateLog(QString("Now it's Player %1's turn to fortify.")
-                          .arg(playerTurn)); // Inform player they are in the fortification phase
-            return;
-        } else {
-            updateLog(
-                "Invalid input. Please enter 'y' to continue attacking or 'n' to end your turn.");
-            return; // Wait for valid input
-        }
+        updateLog("Invalid input. Please enter a valid territory ID.");
     }
 }
 
@@ -342,17 +301,16 @@ void MainWindow::processFortify(const QString &input)
     static int phaseStep = 0;            // Step in the fortification process
     static bool continueFortifying = true; // Whether the player wants to keep fortifying
 
-    // If the player has chosen not to continue fortifying
     if (!continueFortifying) {
         if (input.trimmed().toLower() == "y") {
             continueFortifying = true;
-            phaseStep = 0; // Reset for the next action
+            phaseStep = 0;
             updateLog("Enter the territory ID to move troops from:");
             return;
         } else if (input.trimmed().toLower() == "n") {
             updateLog(QString("Player %1 has ended the fortification phase.").arg(playerTurn));
             playerTurn = 3 - playerTurn; // Switch turn
-            currentPhase = 0;            // Move back to Reinforcement phase
+            currentPhase = 0;
             updateLog(QString("Now it's Player %1's turn. Reinforce a territory.").arg(playerTurn));
             return;
         } else {
@@ -361,62 +319,95 @@ void MainWindow::processFortify(const QString &input)
         }
     }
 
-    // Sequential prompts for the fortification phase
     switch (phaseStep) {
-    case 0: // Prompt for the territory to move troops from
+    case 0: { // From territory
         fromTerritory = input.toInt();
+        bool validTerritory = false;
+
         for (const Territory &territory : territories) {
             if (territory.id == fromTerritory && territory.owner == playerTurn && territory.troops > 1) {
-                updateLog(QString("You selected Territory %1. Enter the territory ID to move troops to:").arg(fromTerritory));
-                phaseStep = 1; // Move to the next step
-                return;
+                validTerritory = true;
+                break;
             }
         }
-        updateLog("Invalid territory. Please select a valid territory owned by you with more than 1 troop.");
-        break;
 
-    case 1: // Prompt for the territory to move troops to
+        if (validTerritory) {
+            updateLog(QString("You selected Territory %1. Enter the territory ID to move troops to:")
+                          .arg(fromTerritory));
+            phaseStep = 1;
+        } else {
+            updateLog("Invalid source territory. Please select a valid territory owned by you with more than 1 troop.");
+        }
+        break;
+    }
+    case 1: { // To territory
         toTerritory = input.toInt();
+        bool isAdjacent = false;
+
+        // Check if the territories are adjacent
+        for (const int &adjId : territories[fromTerritory - 1].adjacent) {
+            if (adjId == toTerritory) {
+                isAdjacent = true;
+                break;
+            }
+        }
+
+        if (!isAdjacent) {
+            updateLog("The target territory is not adjacent to the source territory.");
+            return;
+        }
+
+        bool validTerritory = false;
         for (const Territory &territory : territories) {
             if (territory.id == toTerritory && territory.owner == playerTurn) {
-                updateLog(QString("You selected Territory %1. Enter the number of troops to move:").arg(toTerritory));
-                phaseStep = 2; // Move to the next step
-                return;
+                validTerritory = true;
+                break;
             }
         }
-        updateLog("Invalid territory. Please select a valid territory owned by you.");
-        break;
 
-    case 2: // Prompt for the number of troops to move
+        if (validTerritory) {
+            updateLog(QString("You selected Territory %1. Enter the number of troops to move:").arg(toTerritory));
+            phaseStep = 2;
+        } else {
+            updateLog("Invalid target territory. Please select a valid adjacent territory owned by you.");
+        }
+        break;
+    }
+    case 2: { // Number of troops
         int troopsToMove = input.toInt();
+        bool validMove = false;
+
         for (Territory &source : territories) {
-            if (source.id == fromTerritory && source.owner == playerTurn && source.troops > troopsToMove) {
+            if (source.id == fromTerritory && source.troops > troopsToMove) {
                 for (Territory &destination : territories) {
-                    if (destination.id == toTerritory && destination.owner == playerTurn) {
+                    if (destination.id == toTerritory) {
                         source.troops -= troopsToMove;
                         destination.troops += troopsToMove;
-                        updateLog(QString("Player %1 moved %2 troops from Territory %3 to Territory %4.")
-                                      .arg(playerTurn)
+                        updateLog(QString("Moved %1 troops from Territory %2 to Territory %3.")
                                       .arg(troopsToMove)
                                       .arg(fromTerritory)
                                       .arg(toTerritory));
-                        scoreboard->updateScoreboard(territories); // Update the scoreboard
-                        phaseStep = 0; // Reset for the next fortification action
-                        continueFortifying = false; // Prompt the player to continue or end
-                        updateLog("Do you want to keep fortifying? (y/n)");
-                        return;
+                        validMove = true;
+                        break;
                     }
                 }
             }
+            if (validMove) break;
         }
-        updateLog("Invalid troop movement. Ensure you have enough troops and both territories are valid.");
+
+        if (!validMove) {
+            updateLog("Invalid troop movement. Ensure you have enough troops and the territories are valid.");
+        } else {
+            scoreboard->updateScoreboard(territories);
+            phaseStep = 0;
+            continueFortifying = false;
+            updateLog("Do you want to keep fortifying? (y/n)");
+        }
         break;
     }
-
-    // Refresh the scoreboard after invalid input
-    scoreboard->updateScoreboard(territories);
-    return;
+    }
 }
+
 
 
 void MainWindow::transferOwnership(int territoryId, int newOwner)
