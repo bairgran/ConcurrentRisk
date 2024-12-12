@@ -25,10 +25,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::on_btnSendInput_clicked);
 
     connect(ui->btnJoin, &QPushButton::clicked, this, &MainWindow::connectToServer);
+    connect(ui->btnLeave, &QPushButton::clicked, this, &MainWindow::leaveServer);
     // connections for debug purposes.
     connect(&gameSocket, &QAbstractSocket::stateChanged, this, &MainWindow::socketStateChange);
     connect(&gameSocket, &QAbstractSocket::errorOccurred, this, &MainWindow::socketError);
     connect(ui->comboBox, &QComboBox::currentIndexChanged, ui->stackedWidget, &QStackedWidget::setCurrentIndex);
+    connect(&gameSocket, &QIODevice::readyRead, this, &MainWindow::dataReceived);
 
     updateSize();
 }
@@ -42,8 +44,16 @@ MainWindow::~MainWindow()
 void MainWindow::on_btnSendInput_clicked()
 {
     // Emit the signal with the QLineEdit text
-    emit userInputReceived(ui->lineEdit->text());
+    //emit userInputReceived(ui->lineEdit->text());
+    sendToServer(ui->lineEdit->text());
     ui->lineEdit->clear(); // Clear the input field after sending the text
+}
+
+void MainWindow::sendToServer(const QString &input) {
+    QDataStream out(&gameSocket);
+    out << input;
+    logList.append(QString("Input Sent"));
+    model->setStringList(logList);
 }
 
 
@@ -52,6 +62,18 @@ void MainWindow::on_btnSendInput_clicked()
 // Signaled by QAbstractSocket::stateChanged. Debug info.
 void MainWindow::socketStateChange(QAbstractSocket::SocketState newSocketState) {
     qDebug() << newSocketState;
+    if (newSocketState == QAbstractSocket::ConnectedState) {
+        ui->btnLeave->setEnabled(true);
+        ui->btnJoin->setEnabled(false);
+        ui->lnIPAddress->setEnabled(false);
+        ui->spnPort->setEnabled(false);
+    }
+    else if(newSocketState==QAbstractSocket::UnconnectedState) {
+        ui->btnLeave->setEnabled(false);
+        ui->btnJoin->setEnabled(true);
+        ui->lnIPAddress->setEnabled(true);
+        ui->spnPort->setEnabled(true);
+    }
 }
 
 // Grant
@@ -127,6 +149,36 @@ void MainWindow::connectToServer()
     IP = ui->lnIPAddress->text();
     Port = ui->spnPort->value();
     gameSocket.connectToHost(IP, Port);
+
+}
+
+void MainWindow::leaveServer() {
+    gameSocket.close();
+
+}
+
+void MainWindow::dataReceived() {
+    QDataStream in(&gameSocket);
+    QStringList packet;
+    in >> packet;
+    if (packet[0]=="log") {
+        logList.append(packet[1]);
+        model->setStringList(logList);
+    }
+    else if (packet[0]=="scoreboard") {
+
+        //scoreboard->updateScoreboard(packet[1])
+    }
+
+}
+
+void MainWindow::sendData() {
+    QDataStream out(&gameSocket);
+    QString message = ui->lineEdit->text();
+    out << message;
+    logList.append(QString("Input Sent"));
+    model->setStringList(logList);
+    ui->lineEdit->clear();
 }
 
 

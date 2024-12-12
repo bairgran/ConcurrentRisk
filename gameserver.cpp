@@ -29,13 +29,16 @@ void GameServer::initializeGame()
     currentPhase = 0;
 
     updateLog("Game initialized. It's Player 1's turn. Reinforce an owned territory (enter the number).");
-    scoreboard->updateScoreboard(territories); // Update scoreboard after game initialization
+    //qDebug() << "Game initialized. It's Player 1's turn. Reinforce an owned territory (enter the number).";
+    emit transmitScoreboard(territories); // Update scoreboard after game initialization
 }
 
 void GameServer::updateLog(const QString &message)
 {
-    logList.append(message);
-    model->setStringList(logList);
+    //qDebug() << message;
+    emit transmitLogUpdate(message);
+    //logList.append(message);
+    //model->setStringList(logList);
 }
 
 void GameServer::handleUserInput(const QString &input)
@@ -97,11 +100,11 @@ void GameServer::processReinforcement(const QString &input)
                 QString("You have %1 troops to place. Select how many to reinforce Territory %2.")
                     .arg(currentReinforcement)
                     .arg(selectedTerritoryId));
-            scoreboard->updateScoreboard(territories); // Update scoreboard
+            emit transmitScoreboard(territories); // Update scoreboard
             return;                                    // Wait for next input for troop allocation
         } else {
             updateLog("Invalid territory ID. Please select a valid territory owned by you.");
-            scoreboard->updateScoreboard(territories); // Update scoreboard
+            emit transmitScoreboard(territories); // Update scoreboard
             selectedTerritoryId = -1;                  // Reset for next input
             return;
         }
@@ -111,10 +114,10 @@ void GameServer::processReinforcement(const QString &input)
 
         if (troopsToPlace > currentReinforcement) {
             updateLog("You cannot place more troops than you have left.");
-            scoreboard->updateScoreboard(territories); // Update scoreboard
+            emit transmitScoreboard(territories); // Update scoreboard
         } else if (troopsToPlace < 1) {
             updateLog("You must place at least 1 troop.");
-            scoreboard->updateScoreboard(territories); // Update scoreboard
+            emit transmitScoreboard(territories); // Update scoreboard
         } else {
             // Reinforce the selected territory
             for (Territory &territory : territories) {
@@ -125,7 +128,7 @@ void GameServer::processReinforcement(const QString &input)
                                   .arg(playerTurn)
                                   .arg(selectedTerritoryId)
                                   .arg(troopsToPlace));
-                    scoreboard->updateScoreboard(territories); // Update scoreboard
+                    emit transmitScoreboard(territories); // Update scoreboard
 
                     // Check if there are still troops to place
                     if (currentReinforcement > 0) {
@@ -133,7 +136,7 @@ void GameServer::processReinforcement(const QString &input)
                         updateLog(
                             QString("You have %1 troops left. Select a territory to reinforce.")
                                 .arg(currentReinforcement));
-                        scoreboard->updateScoreboard(territories); // Update scoreboard
+                        emit transmitScoreboard(territories); // Update scoreboard
                         return;                                    // Wait for next input
                     }
                 }
@@ -143,7 +146,7 @@ void GameServer::processReinforcement(const QString &input)
 
     // If no troops left to place, end the reinforcement phase
     updateLog("You have placed all your reinforcements.");
-    scoreboard->updateScoreboard(territories); // Final scoreboard update
+    emit transmitScoreboard(territories); // Final scoreboard update
     currentPhase = 1;                          // Move to Attack phase
     selectedTerritoryId = -1;                  // Reset for the next phase
     updateLog(QString("It's Player %1's turn to attack. Select the territory to attack from.")
@@ -174,7 +177,7 @@ void GameServer::processAttack(const QString &input)
             // Prompt user for the territory they are attacking
             updateLog(
                 QString("Select the territory to attack from Territory %1.").arg(attackingFrom));
-            scoreboard->updateScoreboard(territories); // Update scoreboard
+            emit transmitScoreboard(territories); // Update scoreboard
             return;                                    // Exit to wait for the next input
         } else {
             updateLog("Invalid attacking territory. Please select a valid territory owned by you.");
@@ -243,7 +246,7 @@ void GameServer::processAttack(const QString &input)
                             transferOwnership(targetTerritoryId, playerTurn);
                         }
 
-                        scoreboard->updateScoreboard(territories); // Update scoreboard
+                        emit transmitScoreboard(territories); // Update scoreboard
 
                         // Check if attacking player has troops left to continue attacking
                         if (attackerTerritory.troops <= 1) {
@@ -363,7 +366,7 @@ void GameServer::processFortify(const QString &input)
                                       .arg(troopsToMove)
                                       .arg(fromTerritory)
                                       .arg(toTerritory));
-                        scoreboard->updateScoreboard(territories); // Update the scoreboard
+                        emit transmitScoreboard(territories); // Update the scoreboard
                         phaseStep = 0; // Reset for the next fortification action
                         continueFortifying = false; // Prompt the player to continue or end
                         updateLog("Do you want to keep fortifying? (y/n)");
@@ -377,7 +380,7 @@ void GameServer::processFortify(const QString &input)
     }
 
     // Refresh the scoreboard after invalid input
-    scoreboard->updateScoreboard(territories);
+    emit transmitScoreboard(territories);
     return;
 }
 
@@ -390,9 +393,9 @@ void GameServer::transferOwnership(int territoryId, int newOwner)
             territory.owner = newOwner;
             updateLog(
                 QString("Territory %1 is now owned by Player %2.").arg(territoryId).arg(newOwner));
-            scoreboard->updateScoreboard(territories); // Update scoreboard after game initialization
+            emit transmitScoreboard(territories); // Update scoreboard after game initialization
             break;
         }
     }
-    scoreboard->updateScoreboard(territories); // Update scoreboard after game initialization
+    emit transmitScoreboard(territories); // Update scoreboard after game initialization
 }

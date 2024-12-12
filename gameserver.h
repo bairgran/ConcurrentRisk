@@ -4,7 +4,6 @@
 #include <QObject>
 #include "territory.h"
 #include <QStringListModel>
-#include "scoreboard.h" // Include the scoreboard header
 
 class GameServer : public QObject
 {
@@ -12,22 +11,28 @@ class GameServer : public QObject
 public:
     explicit GameServer(QObject *parent = nullptr);
 
+signals:
+    void transmitData(const int player, const QString &message);
+    void transmitScoreboard(std::vector<Territory> &territories);
+    void transmitLogUpdate(const QString &message);
 
 public slots:
     void handleUserInput(const QString &input); // Slot to handle input from MainWindow
+    void initializeGame();
+
 
 
 private slots:
     //void handleTurnAction();
 
 private:
-    Scoreboard *scoreboard;
-    QStringListModel *model;
-    QStringList logList;
+
+    //QStringListModel *model;
+    //QStringList logList;
 
     void handleTurnAction(const QString &input); // Pass input directly
 
-    void initializeGame();
+
     void updateLog(const QString &message);
     void processReinforcement(const QString &input);
     void processAttack(const QString &input);
@@ -39,7 +44,7 @@ private:
     int currentPhase; // 0 = Reinforcement, 1 = Attack, 2 = Fortify
     std::vector<Territory> territories; // All territories in the game
 
-signals:
+
 };
 
 #endif // GAMESERVER_H

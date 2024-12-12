@@ -10,8 +10,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWindow w;
 
-    GameServer gameServer;
-    QObject::connect(&w, &MainWindow::userInputReceived, &gameServer, &GameServer::handleUserInput);
+    //GameServer gameServer;
+    //QObject::connect(&w, &MainWindow::userInputReceived, &gameServer, &GameServer::handleUserInput);
     w.show();
 
 

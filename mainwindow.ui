@@ -74,7 +74,7 @@
      <enum>QFrame::Shape::Box</enum>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="SetupPage">
      <property name="sizePolicy">
@@ -83,19 +83,16 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <widget class="QWidget" name="layoutWidget">
+     <widget class="QWidget" name="">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>243</width>
-        <height>135</height>
+        <width>244</width>
+        <height>147</height>
        </rect>
       </property>
-      <layout class="QGridLayout" name="gridLayout_2">
-       <property name="sizeConstraint">
-        <enum>QLayout::SizeConstraint::SetNoConstraint</enum>
-       </property>
+      <layout class="QGridLayout" name="gridLayout">
        <property name="leftMargin">
         <number>10</number>
        </property>
@@ -108,8 +105,11 @@
        <property name="bottomMargin">
         <number>10</number>
        </property>
-       <item row="2" column="0" colspan="2">
-        <widget class="QPushButton" name="btnJoin">
+       <property name="spacing">
+        <number>10</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QLabel" name="lblIPAddress">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -117,7 +117,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>Join Server</string>
+          <string>IP Address:</string>
          </property>
         </widget>
        </item>
@@ -137,6 +137,19 @@
          </property>
          <property name="clearButtonEnabled">
           <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="lblPort">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Port:</string>
          </property>
         </widget>
        </item>
@@ -165,6 +178,35 @@
          </property>
         </widget>
        </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="btnJoin">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Join Server</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QPushButton" name="btnLeave">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Leave Server</string>
+         </property>
+        </widget>
+       </item>
        <item row="3" column="0" colspan="2">
         <widget class="QPushButton" name="btnOpenServerWindow">
          <property name="sizePolicy">
@@ -175,32 +217,6 @@
          </property>
          <property name="text">
           <string>Open Server Window</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="lblPort">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Port:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="lblIPAddress">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>IP Address:</string>
          </property>
         </widget>
        </item>
@@ -731,7 +747,7 @@ Defense</string>
      <x>0</x>
      <y>0</y>
      <width>722</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

@@ -36,7 +36,11 @@ private slots:
     void on_comboBox_currentIndexChanged(int index);
 
     void connectToServer();
+    void leaveServer();
     void serverDeleted();
+    void sendToServer(const QString &input);
+    void dataReceived();
+    void sendData();
 
     void on_btnLaunchDefense_clicked();
 

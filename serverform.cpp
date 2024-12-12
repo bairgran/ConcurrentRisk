@@ -16,6 +16,10 @@ ServerForm::ServerForm(QWidget *parent)
     connect(RiskServer, &QTcpServer::pendingConnectionAvailable, this, &ServerForm::addNewConnection);
     connect(ui->btnStart, &QPushButton::clicked, this, &ServerForm::onBtnStartClicked);
     connect(ui->btnClose, &QPushButton::clicked, this, &ServerForm::onBtnCloseClicked);
+    connect(ui->btnStartGame, &QPushButton::clicked, this, &ServerForm::createGame);
+    scoreboard = new Scoreboard(ui->lstGameOutputs);
+    model = new QStringListModel(this);
+    ui->lstGameLogs->setModel(model);
 
     show();
 }
@@ -26,6 +30,40 @@ ServerForm::~ServerForm()
     // Signals to main window that this window has been destroyed so another window can be created if necessary.
     emit serverDeletedSignal();
     delete ui;
+}
+
+void ServerForm::createGame() {
+    qDebug() << "Before";
+    GAME = new GameServer(this);
+    connect(GAME, &GameServer::transmitLogUpdate, this, &ServerForm::updateLog);
+    connect(GAME, &GameServer::transmitScoreboard, this, &ServerForm::updateScoreboard);
+    GAME->initializeGame();
+
+}
+
+void ServerForm::updateLog(const QString &message) {
+    logList.append(message);
+    model->setStringList(logList);
+    for (int i=0; i<3;i++) {
+        if (PlayerMap.contains(i)) {
+            QStringList packet;
+            QTcpSocket *socket = PlayerMap.value(i);
+            QDataStream out(socket);
+            packet << "log";
+            packet << message;
+
+            out << packet;
+        }
+    }
+}
+
+void ServerForm::updateScoreboard(std::vector<Territory> &territories) {
+    scoreboard->updateScoreboard(territories);
+    QStringList packet;
+    packet << "scoreboard";
+    //packet << territories;
+
+    //QString data = QString(territories.begin(), territories.end());
 }
 
 // Grant
@@ -109,7 +147,9 @@ void ServerForm::addNewConnection()
 {
     PlayerMap.insert(connectionCounter, RiskServer->nextPendingConnection());
     qDebug() << "New Server Connection";
+    ui->lstConsole->addItem((QString)"Joined by: "+PlayerMap[connectionCounter]->peerAddress().toString());
     connectionCounter++;
+
     qDebug() << PlayerMap;
 }
 

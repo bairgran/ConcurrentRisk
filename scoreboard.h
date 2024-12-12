@@ -13,6 +13,7 @@ class Scoreboard : public QObject
 
 public:
     Scoreboard(QListView *view);
+public slots:
     void updateScoreboard(const std::vector<Territory> &territories);
 
 private:
