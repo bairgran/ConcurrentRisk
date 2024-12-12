@@ -16,6 +16,10 @@ ServerForm::ServerForm(QWidget *parent)
     connect(RiskServer, &QTcpServer::pendingConnectionAvailable, this, &ServerForm::addNewConnection);
     connect(ui->btnStart, &QPushButton::clicked, this, &ServerForm::onBtnStartClicked);
     connect(ui->btnClose, &QPushButton::clicked, this, &ServerForm::onBtnCloseClicked);
+    connect(ui->btnStartGame, &QPushButton::clicked, this, &ServerForm::createGame);
+    scoreboard = new Scoreboard(ui->lstGameOutputs);
+    model = new QStringListModel(this);
+    ui->lstGameLogs->setModel(model);
 
     show();
 }
@@ -28,8 +32,42 @@ ServerForm::~ServerForm()
     delete ui;
 }
 
+void ServerForm::createGame() {
+    qDebug() << "Before";
+    GAME = new GameServer(this);
+    connect(GAME, &GameServer::transmitLogUpdate, this, &ServerForm::updateLog);
+    connect(GAME, &GameServer::transmitScoreboard, this, &ServerForm::updateScoreboard);
+    GAME->initializeGame();
+
+}
+
+void ServerForm::updateLog(const QString &message) {
+    logList.append(message);
+    model->setStringList(logList);
+    for (int i=0; i<3;i++) {
+        if (PlayerMap.contains(i)) {
+            QStringList packet;
+            QTcpSocket *socket = PlayerMap.value(i);
+            QDataStream out(socket);
+            packet << "log";
+            packet << message;
+
+            out << packet;
+        }
+    }
+}
+
+void ServerForm::updateScoreboard(std::vector<Territory> &territories) {
+    scoreboard->updateScoreboard(territories);
+    QStringList packet;
+    packet << "scoreboard";
+    //packet << territories;
+
+    //QString data = QString(territories.begin(), territories.end());
+}
+
 // Grant
-// Used to populate interfaces with all the possible IP addresses that the server will be hosting from,
+// Used to populate interfaces (QList<QHostAddress>) with all the possible IP addresses that the server will be hosting from,
 // and weeds out any that arent IPv4 protocol.
 void ServerForm::determinePotentialInterfaceConnections() {
     interfaces = QNetworkInterface::allAddresses();
@@ -109,7 +147,9 @@ void ServerForm::addNewConnection()
 {
     PlayerMap.insert(connectionCounter, RiskServer->nextPendingConnection());
     qDebug() << "New Server Connection";
+    ui->lstConsole->addItem((QString)"Joined by: "+PlayerMap[connectionCounter]->peerAddress().toString());
     connectionCounter++;
+
     qDebug() << PlayerMap;
 }
 

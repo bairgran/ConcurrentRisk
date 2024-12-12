@@ -30,6 +30,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         serverform.h serverform.cpp serverform.ui
         test_territory.cpp
         test_mainwindow.cpp
+        gameserver.h gameserver.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET Riskv2 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

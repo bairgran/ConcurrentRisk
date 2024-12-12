@@ -20,11 +20,15 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+signals:
+    void userInputReceived(const QString &input); // Signal for input from the QLineEdit
+
+
 public slots:
     void updateSize();
 
 private slots:
-    void handleTurnAction();
+    void on_btnSendInput_clicked(); // Slot to handle button click
 
     void socketStateChange(QAbstractSocket::SocketState);
     void socketError(QAbstractSocket::SocketError);
@@ -32,7 +36,24 @@ private slots:
     void on_comboBox_currentIndexChanged(int index);
 
     void connectToServer();
+    void leaveServer();
     void serverDeleted();
+    void sendToServer(const QString &input);
+    void dataReceived();
+    void sendData();
+
+    void on_btnLaunchDefense_clicked();
+
+    void on_btnEndFortification_clicked();
+
+    void on_btnEndAttackPhase_clicked();
+
+    void on_btnSendReinforcements_clicked();
+
+    void on_btnEndFortificationPhase_clicked();
+
+    void on_btnLaunchAttack_clicked();
+
 private:
     Scoreboard *scoreboard;
     Ui::MainWindow *ui;
@@ -44,13 +65,6 @@ private:
     int currentPhase; // 0 = Reinforcement, 1 = Attack, 2 = Fortify
 
     std::vector<Territory> territories; // All territories in the game
-
-    void initializeGame();
-    void updateLog(const QString &message);
-    void processReinforcement(const QString &input);
-    void processAttack(const QString &input);
-    void processFortify(const QString &input);
-    void transferOwnership(int territoryId, int newOwner);
 
     QTcpSocket gameSocket;
     QString IP;
